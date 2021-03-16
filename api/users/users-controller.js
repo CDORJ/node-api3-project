@@ -18,7 +18,17 @@ const getUserById = [
   },
 ];
 
+async function insertUser(req, res, next) {
+  try {
+    const user = await User.insert(req.body);
+    res.status(200).json(user);
+  } catch (err) {
+    next({ error: err, message: err.message, status: 500 });
+  }
+}
+
 module.exports = {
   getUsers: getUsers,
   getUserById: getUserById,
+  insertUser: insertUser,
 };

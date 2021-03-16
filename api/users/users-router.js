@@ -9,10 +9,7 @@ router.get("/", Controller.getUsers);
 
 router.get("/:id", mw.validateUserId, Controller.getUserById);
 
-router.post("/", (req, res) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
-});
+router.post("/", mw.validateUser, Controller.insertUser);
 
 router.put("/:id", (req, res) => {
   // RETURN THE FRESHLY UPDATED USER OBJECT
