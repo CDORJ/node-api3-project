@@ -11,11 +11,7 @@ router.get("/:id", mw.validateUserId, Controller.getUserById);
 
 router.post("/", mw.validateUser, Controller.insertUser);
 
-router.put("/:id", (req, res) => {
-  // RETURN THE FRESHLY UPDATED USER OBJECT
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
-});
+// router.put("/:id", mw.validateUser, mw.validateUserId, Controller.updateUser);
 
 router.delete("/:id", (req, res) => {
   // RETURN THE FRESHLY DELETED USER OBJECT

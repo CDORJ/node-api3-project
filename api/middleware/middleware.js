@@ -36,7 +36,13 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+  if (!req.body) {
+    next({ message: "missing user data", status: 404 });
+  } else if (!req.body.text) {
+    next({ message: "missing required text field", status: 400 });
+  } else {
+    next();
+  }
 }
 
 // do not forget to expose these functions to other modules
