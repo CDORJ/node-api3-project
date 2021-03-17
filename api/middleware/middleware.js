@@ -24,10 +24,10 @@ async function validateUserId(req, res, next) {
     next({ error: err, message: err.message, status: 500 });
   }
 }
-// REVIEW This isn't hitting the 404 error that I want it to hit
+
 function validateUser(req, res, next) {
-  if (!req.body) {
-    next({ message: "missing user data!", status: 400 });
+  if (Object.keys(req.body).length == 0) {
+    next({ message: "missing user data", status: 400 });
   } else if (!req.body.name) {
     next({ message: "missing required name field", status: 400 });
   } else {
@@ -36,8 +36,9 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  if (!req.body) {
-    next({ message: "missing user data", status: 404 });
+  console.log("this is the body", req.body)
+  if (Object.keys(req.body).length == 0) {
+    next({ message: "missing user data", status: 400 });
   } else if (!req.body.text) {
     next({ message: "missing required text field", status: 400 });
   } else {

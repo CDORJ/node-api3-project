@@ -11,6 +11,8 @@ router.get("/:id", mw.validateUserId, Controller.getUserById);
 
 router.post("/", mw.validateUser, Controller.insertUser);
 
+router.get("/:id/posts", mw.validateUserId, Controller.getUsersPost);
+
 // router.put("/:id",  Controller.updateUser);
 
 router.delete("/:id", (req, res) => {
