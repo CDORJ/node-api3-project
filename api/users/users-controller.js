@@ -32,7 +32,7 @@ async function updateUser(req, res, next) {
     const changes = req.body;
     const { id } = req.params;
     const updatedUser = await User.update(id, changes);
-    req.status(200).json(updatedUser);
+    res.status(200).json(changes);
   } catch (err) {
     next({ error: err, message: `error retrieving user`, status: 500 });
   }
@@ -49,10 +49,21 @@ async function getUsersPost(req, res, next) {
   }
 }
 
+async function deleteUser(req, res, next) {
+  const { id } = req.params;
+  try {
+    const user = await User.remove(id);
+    res.status(200).json(user);
+  } catch (err) {
+    next({ error: err, message: err.message, status: 500 });
+  }
+}
+
 module.exports = {
   getUsers: getUsers,
   getUserById: getUserById,
   insertUser: insertUser,
   updateUser: updateUser,
   getUsersPost: getUsersPost,
+  deleteUser: deleteUser,
 };

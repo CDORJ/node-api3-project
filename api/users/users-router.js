@@ -11,19 +11,13 @@ router.get("/:id", mw.validateUserId, Controller.getUserById);
 
 router.post("/", mw.validateUser, Controller.insertUser);
 
-router.get("/:id/posts", mw.validateUserId, Controller.getUsersPost);
-
 router.put("/:id", mw.validateUserId, mw.validateUser, Controller.updateUser);
 
-router.delete("/:id", (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
-});
+router.delete("/:id", mw.validateUserId, Controller.deleteUser);
 
-router.get("/:id/posts", (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
-});
+router.get("/:id/posts", mw.validateUserId, Controller.getUsersPost);
+
+// NOTE: the next one is completed in the post-router file.
 
 router.post("/:id/posts", (req, res) => {
   // RETURN THE NEWLY CREATED USER POST
