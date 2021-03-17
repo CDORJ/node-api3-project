@@ -36,7 +36,6 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  console.log("this is the body", req.body)
   if (Object.keys(req.body).length == 0) {
     next({ message: "missing user data", status: 400 });
   } else if (!req.body.text) {
