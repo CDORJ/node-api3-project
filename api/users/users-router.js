@@ -11,7 +11,7 @@ router.get("/:id", mw.validateUserId, Controller.getUserById);
 
 router.post("/", mw.validateUser, Controller.insertUser);
 
-// router.put("/:id", mw.validateUser, mw.validateUserId, Controller.updateUser);
+// router.put("/:id",  Controller.updateUser);
 
 router.delete("/:id", (req, res) => {
   // RETURN THE FRESHLY DELETED USER OBJECT

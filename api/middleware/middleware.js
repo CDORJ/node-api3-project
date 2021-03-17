@@ -27,7 +27,7 @@ async function validateUserId(req, res, next) {
 // REVIEW This isn't hitting the 404 error that I want it to hit
 function validateUser(req, res, next) {
   if (!req.body) {
-    next({ message: "missing user data", status: 404 });
+    next({ message: "missing user data!", status: 400 });
   } else if (!req.body.name) {
     next({ message: "missing required name field", status: 400 });
   } else {
