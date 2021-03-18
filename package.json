@@ -1,10 +1,11 @@
 {
   "name": "node-api3-project",
   "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon index.js",
-    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand --silent"
+    "server": "nodemon index.js"
+    
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "helmet": "^4.4.1",
+    "helmet": "^4.0.0",
     "knex": "^0.21.2",
     "morgan": "^1.10.0",
     "sqlite3": "^5.0.0"
