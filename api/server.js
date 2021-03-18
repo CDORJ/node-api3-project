@@ -16,6 +16,11 @@ server.get("/", (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
 
+server.get("/motd", (req, res) => {
+  const motd = process.env.MOTD || "Here is my Module 4 Project!"
+  res.status(200).json(motd)
+})
+
 server.use((error, req, res, next) => {
   error.error && console.error(error.error);
   res.status(error.status).json({ message: error.message });
