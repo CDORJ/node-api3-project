@@ -99,6 +99,9 @@ dist
 # FuseBox cache
 .fusebox/
 
+# dotenv environment variables on file
+.env
+
 # DynamoDB Local files
 .dynamodb/
 
@@ -118,3 +121,5 @@ dist
 .DS_Store
 .vscode
 testing.db3
+
+PORT=4000
