@@ -5,7 +5,7 @@ const mw = require("../api/middleware/middleware");
 
 const server = express();
 
-server.use(helmet());
+server.use(helmet("dev"));
 // remember express by default cannot parse JSON in request bodies
 server.use(express.json());
 

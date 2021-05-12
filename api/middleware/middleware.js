@@ -1,10 +1,8 @@
 const Users = require("../users/users-model");
-const morgan = require("morgan");
 
 const logger = (req, res, next) => {
   // DO YOUR MAGIC
-  console.log("logging");
-  morgan(":method :url :status :res[content-length] - :response-time ms");
+  console.log("Req ---> ", req);
   next();
 };
 
