@@ -25,7 +25,7 @@ const validateUserId = async (req, res, next) => {
 
 const validateUser = async (req, res, next) => {
   // DO YOUR MAGIC
-  if (!req.body) {
+  if (!req.body || Object.keys(req.body).length === 0) {
     res.status(400).json({ message: "missing user data" });
   } else if (!req.body.name) {
     res.status(400).json({ message: "missing required name field" });
@@ -37,7 +37,7 @@ const validateUser = async (req, res, next) => {
 const validatePost = async (req, res, next) => {
   console.log("This is the req.body ---> ", req.body);
   // DO YOUR MAGIC
-  if (req.body === {}) {
+  if (!req.body || Object.keys(req.body).length === 0) {
     res.status(400).json({ message: "missing post data" });
   } else if (!req.body.text) {
     res.status(400).json({ message: "missing required text field" });
