@@ -1,9 +1,11 @@
 const express = require("express");
+const helmet = require("helmet");
 const usersRouter = require("./users/users-router");
 const mw = require("../api/middleware/middleware");
 
 const server = express();
 
+server.use(helmet());
 // remember express by default cannot parse JSON in request bodies
 server.use(express.json());
 
