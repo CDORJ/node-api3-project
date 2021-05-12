@@ -1,8 +1,10 @@
 const express = require("express");
-const Users = require("./users-model");
-
 // You will need `users-model.js` and `posts-model.js` both
+const Users = require("./users-model");
+const Posts = require("../posts/posts-model");
+
 // The middleware functions also need to be required
+const mw = require("../middleware/middleware");
 
 const router = express.Router();
 
@@ -16,13 +18,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
+// RETURN THE USER OBJECT
+// this needs a middleware to verify user id
+router.get("/:id", mw.validateUserId, async (req, res) => {
   try {
-    const specificUser = await Users.getById(id);
-    // RETURN THE USER OBJECT
-    // this needs a middleware to verify user id
+    const specificUser = req.user;
     res.status(200).json(specificUser);
   } catch (error) {
     res.status(500).json({ message: "Sorry. Something went wrong." });
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", mw.validateUserId, async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   // RETURN THE FRESHLY UPDATED USER OBJECT
@@ -62,7 +62,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", mw.validateUserId, async (req, res) => {
   const { id } = req.params;
   // RETURN THE FRESHLY DELETED USER OBJECT
   // this needs a middleware to verify user id
@@ -79,21 +79,35 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/posts", async (req, res) => {
+router.get("/:id/posts", mw.validateUserId, async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
   try {
-    const posts = await Posts.getById(id);
+    const posts = await Users.getUserPosts(id);
     res.status(200).json(posts);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: "Sorry. Something went wrong." });
+  }
 });
 
-router.post("/:id/posts", (req, res) => {
+router.post("/:id/posts", mw.validateUserId, async (req, res) => {
+  const userId = req.params.id;
+  const newPostInfo = { ...req.body, user_id: userId };
   // RETURN THE NEWLY CREATED USER POST
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
+  try {
+    const newPost = await Posts.insert(newPostInfo);
+    if (newPost) {
+      res.status(200).json(newPost);
+    } else {
+      res.status(404).json({ message: "Invalid ID" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Sorry. Something went wrong.", error });
+  }
 });
 
 // do not forget to export the router
