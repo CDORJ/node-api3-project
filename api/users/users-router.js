@@ -29,7 +29,7 @@ router.get("/:id", mw.validateUserId, async (req, res) => {
   }
 });
 
-router.post("/", mw.validatePost, async (req, res) => {
+router.post("/", mw.validateUser, async (req, res) => {
   const newUserInfo = req.body;
 
   try {
@@ -42,7 +42,7 @@ router.post("/", mw.validatePost, async (req, res) => {
   }
 });
 
-router.put("/:id", mw.validateUserId, async (req, res) => {
+router.put("/:id", mw.validateUserId, mw.validateUser, async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   // RETURN THE FRESHLY UPDATED USER OBJECT
@@ -91,24 +91,29 @@ router.get("/:id/posts", mw.validateUserId, async (req, res) => {
   }
 });
 
-router.post("/:id/posts", mw.validateUserId, async (req, res) => {
-  const userId = req.params.id;
-  const newPostInfo = { ...req.body, user_id: userId };
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
-  try {
-    const newPost = await Posts.insert(newPostInfo);
-    if (newPost) {
-      res.status(200).json(newPost);
-    } else {
-      res.status(404).json({ message: "Invalid ID" });
+router.post(
+  "/:id/posts",
+  mw.validateUserId,
+  mw.validatePost,
+  async (req, res) => {
+    const userId = req.params.id;
+    const newPostInfo = { ...req.body, user_id: userId };
+    // RETURN THE NEWLY CREATED USER POST
+    // this needs a middleware to verify user id
+    // and another middleware to check that the request body is valid
+    try {
+      const newPost = await Posts.insert(newPostInfo);
+      if (newPost) {
+        res.status(200).json(newPost);
+      } else {
+        res.status(404).json({ message: "Invalid ID" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Sorry. Something went wrong.", error });
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Sorry. Something went wrong.", error });
   }
-});
+);
 
 // do not forget to export the router
 module.exports = router;
