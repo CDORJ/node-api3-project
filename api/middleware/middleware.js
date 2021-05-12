@@ -2,7 +2,9 @@ const Users = require("../users/users-model");
 
 const logger = (req, res, next) => {
   // DO YOUR MAGIC
-  console.log("Req ---> ", req);
+  console.log(
+    `Method: ${req.method} --- URL: ${req.url} --- Time: [${new Date().toISOString()}]`
+  );
   next();
 };
 
