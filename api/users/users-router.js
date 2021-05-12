@@ -29,7 +29,7 @@ router.get("/:id", mw.validateUserId, async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", mw.validatePost, async (req, res) => {
   const newUserInfo = req.body;
 
   try {

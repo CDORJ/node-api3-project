@@ -1,7 +1,10 @@
 const Users = require("../users/users-model");
+const morgan = require("morgan");
 
 const logger = (req, res, next) => {
   // DO YOUR MAGIC
+  morgan(":method :url :status :res[content-length] - :response-time ms");
+  next();
 };
 
 const validateUserId = async (req, res, next) => {
