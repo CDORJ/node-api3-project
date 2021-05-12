@@ -11,17 +11,35 @@ router.get("/", async (req, res) => {
   try {
     const users = await Users.get();
     res.status(200).json(users);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: "Sorry. Something went wrong." });
+  }
 });
 
-router.get("/:id", (req, res) => {
-  // RETURN THE USER OBJECT
-  // this needs a middleware to verify user id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const specificUser = await Users.getById(id);
+    // RETURN THE USER OBJECT
+    // this needs a middleware to verify user id
+    res.status(200).json(specificUser);
+  } catch (error) {
+    res.status(500).json({ message: "Sorry. Something went wrong." });
+  }
 });
 
-router.post("/", (req, res) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
+router.post("/", async (req, res) => {
+  const newUserInfo = req.body;
+
+  try {
+    const newUser = await Users.insert(newUserInfo);
+    // RETURN THE NEWLY CREATED USER OBJECT
+    // this needs a middleware to check that the request body is valid
+    res.status(200).json(newUser);
+  } catch (error) {
+    res.status(500).json({ message: "Sorry. Something went wrong." });
+  }
 });
 
 router.put("/:id", (req, res) => {
@@ -33,17 +51,6 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   // RETURN THE FRESHLY DELETED USER OBJECT
   // this needs a middleware to verify user id
-});
-
-router.get("/:id/posts", (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
-});
-
-router.post("/:id/posts", (req, res) => {
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
 });
 
 // do not forget to export the router
